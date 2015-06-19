@@ -13,7 +13,7 @@ module HealthDataStandards
           @id_xpath = "./cda:id"
           @status_xpath = nil
           @priority_xpath = nil
-          @description_xpath = "./cda:code/cda:originalText/cda:reference[@value] | ./cda:text/cda:reference[@value]"
+          @description_xpath = "./cda:code/cda:originalText/cda:reference[@value] | ./cda:text/cda:reference[@value] | ./cda:code"
           @check_for_usable = true
           @entry_class = Entry
           @value_xpath = 'cda:value'
@@ -76,7 +76,11 @@ module HealthDataStandards
         def extract_reason_description(parent_element, entry, nrh)
           code_elements = parent_element.xpath(@description_xpath)
           code_elements.each do |code_element|
-            tag = code_element['value']
+            if code_element['displayName']
+              tag = code_element['displayName']
+            else
+              tag = code_element['value']
+            end
             entry.description = nrh.lookup_tag(tag)
           end
         end
