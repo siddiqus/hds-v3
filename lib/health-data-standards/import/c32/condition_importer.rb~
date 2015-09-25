@@ -12,6 +12,7 @@ module HealthDataStandards
         
         def create_entry(entry_element, nrh = CDA::NarrativeReferenceHandler.new)
           begin          
+            debugger          
             condition = super
             extract_cause_of_death(entry_element, condition)
             extract_type(entry_element, condition)
